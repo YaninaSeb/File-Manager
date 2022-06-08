@@ -1,67 +1,73 @@
 import readline from 'readline';
 import { userName } from './src/utils/getUserName.js';
-import { homeDir } from './src/utils/getCurrentDir.js';
+import { pathToDefaultDir } from './src/utils/getPathToDir.js';
+import { pathToCurrentDir } from './src/utils/getPathToDir.js';
+import { setPathToCurrentDir } from './src/utils/getPathToDir.js';
+import { list } from './src/commands/nwd/listAllFiles.js';
+import { getPathToFolder } from './src/commands/nwd/toFolder.js';
+import { getPathToUpperDir } from './src/commands/nwd/toUpDir.js';
+import { calculateHash } from './src/commands/hash/calcHash.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
 
+console.log(`Welcome to the File Manager, ${userName()}!\n`);
+console.log(`You are currently in ${pathToDefaultDir()}\n`);
 
-console.log(`Welcome to the File Manager, ${userName()}!`);
-console.log(`You are currently in ${homeDir()}` + '\n');
-
-
-rl.on('line', (line) => {
-    switch (line.trim()) {
+rl.on('line', async (line) => {
+    const command = line.trim().split(' ')[0];
+    switch (command) {
         case 'up':
-            console.log('world!');
+            let pathToUpDir = await getPathToUpperDir();
+            setPathToCurrentDir(pathToUpDir);
+            console.log(`\nYou are currently in ${pathToCurrentDir}\n`);
             break;
         case 'cd':
-            console.log('world!');
+            let pathToFolder = await getPathToFolder(line);
+            setPathToCurrentDir(pathToFolder);
+            console.log(`\nYou are currently in ${pathToCurrentDir}\n`);
+            break;
+        case 'ls':
+            await list();
+            console.log(`\nYou are currently in ${pathToCurrentDir}\n`);
             break;
         case 'cat':
-            console.log('world!');
             break;
         case 'add':
-            console.log('world!');
             break;
         case 'rn':
-            console.log('world!');
             break;
         case 'cp':
-            console.log('world!');
             break;
         case 'mv':
-            console.log('world!');
             break;
         case 'rm':
-            console.log('world!');
             break;
         case 'os':
-            console.log('world!');
             break;
         case 'hash':
-            console.log('world!');
+            await calculateHash(line);
+            console.log(`\nYou are currently in ${pathToCurrentDir}\n`);
             break;
         case 'compress':
-            console.log('world!');
             break;
         case 'decompress':
-            console.log('world!');
             break;
-
+        case '.exit':
+            console.log(`\nThank you for using File Manager, ${userName()}!\n`);
+            rl.close();
+            process.exit(0);
+            break;
         default:
-            console.log('Invalid input');
+            console.log('\nInvalid input\n');
             break;
     }
-})
-
+});
 
 rl.on('SIGINT', () => {
-    console.log(`Thank you for using File Manager, ${userName()}!`);
+    console.log(`Thank you for using File Manager, ${userName()}!\n`);
     rl.close();
     process.exit(0);
 });
-
-
