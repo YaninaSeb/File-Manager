@@ -5,8 +5,11 @@ export const list = async () => {
     try {
         await access(pathToCurrentDir); 
         let res = await readdir(pathToCurrentDir);
+
         console.log(res);
+        console.log(`\nYou are currently in ${pathToCurrentDir}\n`);
+        
     } catch (err) {
-        console.log('Operation failed\n');
+        console.log('\nOperation failed\n');
     }
 };

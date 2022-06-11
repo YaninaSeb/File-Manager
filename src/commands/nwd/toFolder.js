@@ -1,17 +1,16 @@
-import { access } from 'fs/promises';
+import { constants } from 'fs';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { pathToCurrentDir } from "../../utils/getPathToDir.js";
 
 export const getPathToFolder = async (data) => {
     const newPath = data.trim().replace('cd ', '');
-    let pathToFolder = path.join(pathToCurrentDir, `${newPath}`);
+    let pathToFolder = path.isAbsolute(newPath) ? newPath : path.join(pathToCurrentDir, `${newPath}`)
 
     try {
-        await fs.lstat(pathToFolder);
+        await fs.access(pathToFolder);
         return pathToFolder;
     } catch (err) {
-        console.log('Operation failed\n');
-        return pathToCurrentDir;
+        console.log('\nOperation failed\n');
     }
 };

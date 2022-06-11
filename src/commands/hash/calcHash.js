@@ -1,17 +1,32 @@
-import { readFile } from 'fs/promises';
+import { createReadStream } from 'fs';
+import { access } from 'fs/promises';
 import path from 'path';
 import { pathToCurrentDir } from '../../utils/getPathToDir.js';
 const { createHash } = await import('crypto');
 
 export const calculateHash = async (data) => {
     const file =  data.trim().replace('hash ', '');
-    let pathToFile = path.join(pathToCurrentDir, `${file}`);
+    let pathToFile = path.isAbsolute(file) ? file : path.join(pathToCurrentDir, `${file}`);
 
     try {
-        const fileContent = await readFile(pathToFile);
-        const hash = createHash('sha256').update(fileContent).digest('hex');
-        console.log(hash + '\n');
+
+        await access(pathToFile);
+
+        const readStream = createReadStream(pathToFile);
+
+        let fileContent = '';
+
+        readStream.on('data', (chunk) => {
+            fileContent += chunk;
+        });
+        readStream.on('end', () => {
+            const hash = createHash('sha256').update(fileContent).digest('hex');
+
+            console.log('\n' + hash);
+            console.log(`\nYou are currently in ${pathToCurrentDir}\n`);
+        });
+
     } catch (err) {
-        console.log('Operation failed\n');
+        console.log('\nOperation failed\n');
     }
 };
