@@ -1,5 +1,5 @@
 import { createReadStream } from 'fs';
-import { access } from 'fs/promises';
+import { stat } from 'fs/promises';
 import path from 'path';
 import { pathToCurrentDir } from '../../utils/getPathToDir.js';
 const { createHash } = await import('crypto');
@@ -9,8 +9,8 @@ export const calculateHash = async (data) => {
     let pathToFile = path.isAbsolute(file) ? file : path.join(pathToCurrentDir, `${file}`);
 
     try {
-
-        await access(pathToFile);
+        const stats = await stat(pathToFile);
+        if (!stats.isFile()) throw err;
 
         const readStream = createReadStream(pathToFile);
 

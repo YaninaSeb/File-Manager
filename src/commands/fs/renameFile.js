@@ -1,12 +1,14 @@
 import { rename, access } from "fs/promises";
+import * as path from 'path';
+import { pathToCurrentDir } from "../../utils/getPathToDir.js";
 
 export const renameFile = async (data) => {
     const pathSourceAndDest =  data.trim().replace('rn ', '');
-    const [ pathToSource, pathToDestination ] = pathSourceAndDest.split(' ');
+    const [ source, destination ] = pathSourceAndDest.split(' ');
 
     try {
-        await access(pathToSource);
-        if (!pathToDestination) throw err;
+        let pathToSource = path.isAbsolute(source) ? source : path.join(pathToCurrentDir, `${source}`);
+        let pathToDestination = path.isAbsolute(destination) ? destination : path.join(pathToCurrentDir, `${destination}`);
 
         await rename(pathToSource, pathToDestination);
 
