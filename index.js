@@ -15,6 +15,7 @@ import { remove } from './src/commands/fs/deleteFile.js';
 import { renameFile } from './src/commands/fs/renameFile.js';
 import { copy } from './src/commands/fs/copyFile.js';
 import { move } from './src/commands/fs/moveFile.js';
+import { setAttrOs } from './src/commands/os/os.js';
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -62,6 +63,7 @@ rl.on('line', async (line) => {
             await remove(line);
             break;
         case 'os':
+            setAttrOs(line);
             break;
         case 'hash':
             await calculateHash(line);
