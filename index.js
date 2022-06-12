@@ -56,7 +56,7 @@ rl.on('line', async (line) => {
             await copy(line);
             break;
         case 'mv':
-            await move();
+            await move(line);
             break;
         case 'rm':
             await remove(line);

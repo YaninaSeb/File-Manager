@@ -19,7 +19,11 @@ export const move = async (data) => {
 
         readStream.pipe(writeStream);
 
-        unlink(pathToSource);
+        readStream.on('end', () => {
+            unlink(pathToSource, (err) => {
+                if (err) throw err;
+            });
+        });
 
         console.log(`\nYou are currently in ${pathToCurrentDir}\n`);
 
