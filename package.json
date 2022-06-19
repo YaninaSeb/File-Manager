@@ -1,0 +1,24 @@
+{
+  "name": "file-manager",
+  "description": "A simple file manager",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "bin": {
+    "file-manager": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YaninaSeb/File-Manager"
+  },
+  "keywords": [
+    "nodejs",
+    "file-manager"
+  ],
+  "author": "YaninaSeb",
+  "dependencies": {
+    "commander": "^9.3.0",
+    "inquirer": "^8.2.4"
+  }
+}
