@@ -14,7 +14,7 @@ export const getOsCPUS = () => {
     });
 
     console.log('\nOverall amount of CPUS: ' + os.cpus().length);
-    console.log(res);
+    console.table(res);
 
     console.log(`You are currently in ${pathToCurrentDir}\n`);
 }
