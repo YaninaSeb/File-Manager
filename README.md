@@ -1,4 +1,4 @@
-# File-Manager
+# File Manager
 
 ### ***Учебный проект из курса [The Rolling Scopes School  NodeJS](https://rs.school/nodejs/)***  
 ***Выполнен:  июнь 2022***  
